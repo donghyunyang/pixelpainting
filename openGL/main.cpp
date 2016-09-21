@@ -8,9 +8,9 @@
 const int width = 1024;
 const int height = 600;
 
-float* pixels = new float[width*height * 3];
+float* pixels = new float[width*height * 3];// 픽셀의 배열을 선언해줍니다. 해상도 x 3(rgb)입니다.
 
-void drawPixel(const int& i, const int& j, const float& red, const float& green, const float& blue)
+void drawPixel(const int& i, const int& j, const float& red, const float& green, const float& blue)//픽셀배열에 값(rgb)을 넣는 과정입니다.
 {
 	pixels[(i + width* j) * 3 + 0] = red;
 	pixels[(i + width* j) * 3 + 1] = green;
@@ -20,25 +20,25 @@ void drawPixel(const int& i, const int& j, const float& red, const float& green,
 void drawLine(const int& i0, const int& j0, const int& i1, const int& j1, const float& red, const float& green, const float& blue)
 {
 
-	if (i1 - i0 == 0)//세로그리기
+	if (i1 - i0 == 0)//직선 함수는 분모가 0이면 즉 x2-x1 차이가 0이면 오류가 나므로 0일때 y축만그리는것으로함.
 	{
 		for (int i = j0;i < j1;i++)
 		{
 			drawPixel(i1, i, red, green, blue);
 		}
 	}
-	else if ((j1 - j0) != 0)
+	else if ((j1 - j0) != 0)//기울기가 0이아닌 나머지일경우 
 	{
 		for (int i = i0; i < i1; i++)
 		{
 			const int j = (j1 - j0)*(i - i0) / (i1 - i0) + j0;
 
 			drawPixel(i, j, red, green, blue);// i부터 j까지 rgb값으로 그린다
-			drawPixel(i, j - 1, red, green, blue);drawPixel(i, j + 1, red, green, blue);
+			drawPixel(i, j - 1, red, green, blue);drawPixel(i, j + 1, red, green, blue);//기울어지면 픽셀수가 적어지기때문에 추가해주었습니다.
 
 		}
 	}
-	else
+	else//가로일경우 
 	{
 		for (int i = i0; i < i1; i++)
 		{
@@ -56,7 +56,7 @@ void thickLine(const int& i0, const int& j0, const int& i1, const int& j1, const
 	{
 		for (int i = j0;i < j1;i++)
 		{
-			for (int j = 0;j < 10;j++)
+			for (int j = 0;j < 10;j++)//기존픽셀에서 x값을 10만큼 증가시켜 찍습니다.(두꺼워지는과정)
 			{
 				drawPixel(i1 + j, i, red, green, blue);
 			}
@@ -88,13 +88,12 @@ void thickLine(const int& i0, const int& j0, const int& i1, const int& j1, const
 
 void drawcircle(const int& x1, const int& y1, const int& r, const float& red, const float& green, const float& blue)
 {
-	//rad_to_deg = (float)degree*(pi / 180);
 	float i = 0.0;
 	float rad_to_deg = 0.0;
 	float degree = 360.0;
 	int x2 = 0, y2 = 0;
 
-	//for (;rad_to_deg*(180 / pi) < degree;rad_to_deg++)
+	
 	for (degree = 0;degree < 360;degree++)
 	{
 		rad_to_deg = degree*(pi / 180);
@@ -146,8 +145,8 @@ void drawOnPixelBuffer()
 													//	pixels[i * 3 + 2] = 1.0f; // blue
 													//}
 
-	const int i = rand() % width, j = rand() % height;
-	drawPixel(i, j, 0.0f, 0.0f, 0.0f);
+	//const int i = rand() % width, j = rand() % height;
+	//(i, j, 0.0f, 0.0f, 0.0f);
 
 	// drawing a line
 	//TODO: anti-aliasing
